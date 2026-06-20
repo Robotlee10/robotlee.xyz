@@ -84,21 +84,53 @@
             text-transform: uppercase;
         }
 
-        .bio-text {
-            line-height: 1.8;
-            color: #888888;
-            font-size: 16px;
+        /* --- HORIZONTAL TEXT CONTAINER --- */
+        .swiper-wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; /* Hides horizontal scrollbar on Firefox */
             margin-bottom: 40px;
         }
 
-        /* Fixed structural design from screenshot */
+        .swiper-wrapper::-webkit-scrollbar {
+            display: none; /* Hides horizontal scrollbar on Chrome/Safari */
+        }
+
+        /* Each content section matches your original screen footprint */
+        .swiper-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+            box-sizing: border-box;
+        }
+
+        /* Headline styled to stand out right after System Online */
+        .headline-text {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 auto 15px auto;
+            max-width: 500px;
+            line-height: 1.4;
+        }
+
+        /* Subheadline paragraph styling underneath */
+        .subheadline-text {
+            line-height: 1.8;
+            color: #888888;
+            font-size: 16px;
+            margin: 0 auto;
+            max-width: 550px;
+        }
+
+        /* Latest Status Card Box Module at the bottom */
         .status-card {
             background-color: #111111;
             border: 1px solid #222222;
             border-radius: 8px;
             padding: 25px;
             text-align: left;
-            overflow: hidden; /* Keeps ticker bounds clean */
         }
 
         .status-card h2 {
@@ -109,26 +141,11 @@
             font-weight: normal;
         }
 
-        /* The ticker scrolling line viewport */
-        .ticker-viewport {
-            overflow: hidden;
-            white-space: nowrap;
-            width: 100%;
-        }
-
-        /* Animation styling that moves text automatically sideways if it builds up */
-        .ticker-text {
-            display: inline-block;
+        .status-card p {
             color: #888888;
             font-size: 15px;
             line-height: 1.6;
-            padding-left: 100%;
-            animation: statusTicker 25s linear infinite;
-        }
-
-        @keyframes statusTicker {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
+            margin: 0;
         }
     </style>
 </head>
@@ -145,16 +162,18 @@
             <img src="https://yrpfevxzocpedpthknhi.supabase.co/storage/v1/object/public/robotlee10.dpdns.org/eb1090c3-fbfc-4c85-ad03-229fd22d2f23.jpg" class="brand-logo" alt="Logo">
         </div>
         
-        <h1 id="hero-title">robotlee10</h1>
+        <h1>robotlee10</h1>
         <div class="status-tag">SYSTEM // ONLINE</div>
 
-        <p class="bio-text" id="hero-subtitle">...</p>
+        <div class="swiper-wrapper" id="text-swiper">
+            <div class="swiper-slide">
+                <p style="color: #444;">Connecting data streams...</p>
+            </div>
+        </div>
 
         <div class="status-card">
             <h2>Latest Status</h2>
-            <div class="ticker-viewport">
-                <span id="status-content" class="ticker-text">Loading secure updates...</span>
-            </div>
+            <p>Deploying multi-page core architecture via Vercel pipeline successfully.</p>
         </div>
     </div>
 
@@ -166,27 +185,37 @@
             try {
                 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
                 
-                // Fetch latest 5 rows from your home table
+                // Fetch up to 5 updates from your home table, newest rows first
                 let { data: homeRows } = await supabase
                     .from('home')
                     .select('*')
                     .order('created_at', { ascending: false })
                     .limit(5);
 
+                const swiperContainer = document.getElementById('text-swiper');
+
                 if (homeRows && homeRows.length > 0) {
-                    // Bio always tracks your most recent row's subheadline
-                    document.getElementById('hero-subtitle').innerText = homeRows[0].subheadline || '';
+                    let swiperHtml = '';
 
-                    // Combines all your different status headlines separated by distinct spacer hashes
-                    const combinedStatus = homeRows
-                        .map(row => row.headline)
-                        .filter(text => text)
-                        .join('  ///  ');
+                    // Generate a swipe block for every single row item
+                    homeRows.forEach(row => {
+                        swiperHtml += `
+                            <div class="swiper-slide">
+                                <div class="headline-text">${row.headline || ''}</div>
+                                <p class="subheadline-text">${row.subheadline || ''}</p>
+                            </div>
+                        `;
+                    });
 
-                    document.getElementById('status-content').innerText = combinedStatus;
+                    swiperContainer.innerHTML = swiperHtml;
                 } else {
-                    document.getElementById('hero-subtitle').innerText = "Welcome to my digital outpost. I build clean, high-performance web spaces and test automation systems.";
-                    document.getElementById('status-content').innerText = "Deploying multi-page core architecture via Vercel pipeline successfully.";
+                    // Fallback visual content if table has 0 rows configured
+                    swiperContainer.innerHTML = `
+                        <div class="swiper-slide">
+                            <div class="headline-text">Engineering Custom Digital Solutions.</div>
+                            <p class="subheadline-text">Welcome to my digital outpost. I build clean, high-performance web spaces and test automation systems.</p>
+                        </div>
+                    `;
                 }
             } catch (err) {}
         }

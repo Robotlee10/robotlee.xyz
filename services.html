@@ -74,11 +74,22 @@
             flex-direction: column;
             justify-content: space-between;
             transition: transform 0.3s ease, border-color 0.3s ease;
+            overflow: hidden;
         }
 
         .service-card:hover {
             transform: translateY(-5px);
             border-color: #00ff88;
+        }
+
+        /* Added Service Image style rules */
+        .service-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border: 1px solid #1a1a1a;
         }
 
         .service-title {
@@ -148,19 +159,16 @@
             const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
             async function loadServicesPage() {
-                // 1. Fetch your WhatsApp URL or phone from the single row in the 'about' table
+                // 1. Fetch WhatsApp baseline link from 'about' table
                 let { data: aboutData } = await supabase.from('about').select('whatsapp_url').limit(1);
-                
-                // Fallback destination if no custom whatsapp link is set in database
                 let baseWhatsAppUrl = "https://wa.me/"; 
                 
                 if (aboutData && aboutData.length > 0 && aboutData[0].whatsapp_url) {
                     const savedLink = aboutData[0].whatsapp_url.trim();
-                    // Check if it's already a full link or just a raw number
                     baseWhatsAppUrl = savedLink.startsWith('http') ? savedLink : `https://wa.me/${savedLink}`;
                 }
 
-                // 2. Fetch services list
+                // 2. Fetch services list (including image_url column)
                 let { data: services, error } = await supabase.from('services').select('*');
 
                 if (error || !services || services.length === 0) {
@@ -168,22 +176,26 @@
                     return;
                 }
 
-                // 3. Build layout with dynamic custom messages
+                // 3. Build dynamic card elements
                 let gridHtml = '<div class="services-grid">';
                 
                 services.forEach(service => {
-                    // Create an clean encoded message text for the URL string
                     const defaultMessage = `Hi! I am interested in your ${service.title || 'services'}. Can you provide more details?`;
                     const encodedText = encodeURIComponent(defaultMessage);
                     
-                    // Attach text parameter depending on how the base URL is structured
                     const finalUrl = baseWhatsAppUrl.includes('?') 
                         ? `${baseWhatsAppUrl}&text=${encodedText}` 
                         : `${baseWhatsAppUrl}?text=${encodedText}`;
 
+                    // Check if image_url exists in database block, construct markup dynamically
+                    const imageMarkup = service.image_url 
+                        ? `<img src="${service.image_url}" class="service-img" alt="${service.title || 'Service Image'}">`
+                        : '';
+
                     gridHtml += `
                         <div class="service-card">
                             <div>
+                                ${imageMarkup}
                                 <h3 class="service-title">${service.title || 'Untitled Service'}</h3>
                                 <p class="service-desc">${service.description || 'No description provided.'}</p>
                             </div>

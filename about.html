@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>robotlee10 // About</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body {
             background-color: #0a0a0a;
@@ -42,129 +41,122 @@
         }
 
         .container {
-            max-width: 700px;
-            margin: 40px auto;
+            max-width: 600px;
+            margin: 60px auto;
             padding: 0 20px;
         }
 
-        /* Profile Block */
-        .profile-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .profile-pic {
-            width: 140px;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid #00ff88;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
-            margin-bottom: 20px;
-        }
-
-        h1, h2 {
+        h1 {
             color: #ffffff;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-size: 28px;
+            letter-spacing: 1px;
+            margin: 0 0 20px 0;
+            font-weight: normal;
+            text-align: center;
         }
 
-        h1 { font-size: 28px; margin-bottom: 10px; }
-        h2 { font-size: 18px; border-bottom: 1px solid #222; padding-bottom: 8px; margin-top: 40px; }
-
-        .bio-text {
+        .bio-section {
             line-height: 1.8;
             color: #888888;
             font-size: 16px;
-            max-width: 550px;
-            margin: 0 auto;
+            margin-bottom: 50px;
         }
 
-        /* Skills Pill Layout */
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
+        .bio-section p {
+            margin-bottom: 20px;
         }
 
-        .skill-badge {
-            background-color: #111;
-            border: 1px solid #222;
-            color: #00ff88;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-family: monospace;
-        }
-
-        /* Timeline Split Columns */
-        .timeline-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 15px;
-        }
-
-        @media (max-width: 600px) {
-            .timeline-columns { grid-template-columns: 1fr; }
-        }
-
-        .timeline-card {
-            background-color: #111111;
-            border-left: 2px solid #00ff88;
-            padding: 15px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 15px;
-        }
-
-        .timeline-card .year {
-            color: #00ff88;
-            font-family: monospace;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-
-        .timeline-card .title {
-            color: #ffffff;
-            font-weight: bold;
-            font-size: 15px;
-        }
-
-        .timeline-card .inst {
-            color: #666666;
-            font-size: 13px;
-            margin-top: 2px;
-        }
-
-        /* Social Icons Wrapper at bottom */
-        .icons-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            padding-bottom: 40px;
-        }
-
-        .social-icon-btn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 55px;
-            height: 55px;
+        /* --- CLIENT INTAKE PORTAL FORM STYLING --- */
+        .contact-portal {
             background-color: #111111;
             border: 1px solid #222222;
-            border-radius: 50%;
-            font-size: 22px;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 8px;
+            padding: 30px 25px;
+            margin-top: 40px;
         }
 
-        .social-icon-btn:hover {
-            transform: scale(1.15);
+        .contact-portal h2 {
+            color: #ffffff;
+            font-size: 18px;
+            margin: 0 0 8px 0;
+            letter-spacing: 1px;
+            font-weight: normal;
+            text-transform: uppercase;
+            font-family: monospace;
+        }
+
+        .contact-portal p {
+            font-size: 14px;
+            color: #666666;
+            margin: 0 0 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: monospace;
+            font-size: 12px;
+            color: #00ff88;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: #0a0a0a;
+            border: 1px solid #222222;
+            border-radius: 4px;
+            padding: 12px;
+            color: #ffffff;
+            font-family: sans-serif;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: transparent;
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            font-family: monospace;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: rgba(0, 255, 136, 0.05);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+        }
+
+        #form-status {
+            font-family: monospace;
+            font-size: 13px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
         }
     </style>
 </head>
@@ -177,130 +169,69 @@
     </nav>
 
     <div class="container">
-        <div class="profile-header" id="profile-container"></div>
-
-        <h2>Core Capabilities</h2>
-        <div class="skills-grid" id="skills-container"></div>
-
-        <div class="timeline-columns">
-            <div>
-                <h2>Education</h2>
-                <div id="education-container"></div>
-            </div>
-            <div>
-                <h2>Experience</h2>
-                <div id="experience-container"></div>
-            </div>
+        <h1>ABOUT // SYSTEM</h1>
+        
+        <div class="bio-section">
+            <p>I engineer high-performance web spaces and customized automation environments. Focusing heavily on clean execution, speed, and asynchronous data pipelines, my work bridges the gap between aesthetic clarity and technical systems infrastructure.</p>
+            <p>Leveraging environments like Supabase for decoupled data management and Playwright/Cypress engines for bulletproof continuous testing integration, I ensure web operations stay online and structurally flawless.</p>
         </div>
 
-        <h2>Connect with me</h2>
-        <div class="icons-wrapper" id="socials-container"></div>
+        <div class="contact-portal">
+            <h2>Initialize Contact</h2>
+            <p>Drop your transmission coordinates below to submit an inquiry stream.</p>
+            
+            <form id="intake-form">
+                <div class="form-group">
+                    <label for="client-email">Email Address</label>
+                    <input type="email" id="client-email" class="form-control" placeholder="name@domain.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="client-message">Project Parameters / Message</label>
+                    <textarea id="client-message" class="form-control" placeholder="Describe the system framework or service specifications needed..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Signal →</button>
+            </form>
+            
+            <div id="form-status"></div>
+        </div>
     </div>
 
     <script>
         const supabaseUrl = 'https://yrpfevxzocpedpthknhi.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlycGZldnh6b2NwZWRwdGhrbmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NDg5NjIsImV4cCI6MjA5NzUyNDk2Mn0.GMxuE_B17gwzUaqPlaHzwlY20i8XYaMNOoxY9WGijLw';
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        function getIconClass(platformName) {
-            const name = platformName.toLowerCase().trim();
-            if (name.includes('github')) return 'fa-brands fa-github';
-            if (name.includes('linkedin')) return 'fa-brands fa-linkedin-in';
-            if (name.includes('twitter') || name.includes('x')) return 'fa-brands fa-x-twitter';
-            if (name.includes('instagram')) return 'fa-brands fa-instagram';
-            if (name.includes('whatsapp')) return 'fa-brands fa-whatsapp';
-            if (name.includes('medium')) return 'fa-brands fa-medium';
-            if (name.includes('tiktok')) return 'fa-brands fa-tiktok';
-            if (name.includes('discord')) return 'fa-brands fa-discord';
-            if (name.includes('farcaster')) return 'fa-solid fa-cube';
-            if (name.includes('facebook')) return 'fa-brands fa-facebook-f';
-            if (name.includes('youtube')) return 'fa-brands fa-youtube';
-            if (name.includes('email') || name.includes('mail')) return 'fa-solid fa-envelope';
-            return 'fa-solid fa-link';
-        }
+        document.getElementById('intake-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('client-email').value;
+            const messageInput = document.getElementById('client-message').value;
+            const statusDiv = document.getElementById('form-status');
+            
+            statusDiv.style.display = 'block';
+            statusDiv.style.color = '#888888';
+            statusDiv.innerText = 'TRANSMITTING SIGNAL...';
 
-        try {
-            const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+            try {
+                // Insert form inputs directly into your inquiries table
+                const { error } = await supabase
+                    .from('inquiries')
+                    .insert([{ email: emailInput, message: messageInput }]);
 
-            async function loadAllAboutData() {
-                // Fetching all 4 matrix channels at the exact same time
-                const [aboutRes, skillsRes, timelineRes, socialsRes] = await Promise.all([
-                    supabase.from('about').select('*'),
-                    supabase.from('skills').select('*'),
-                    supabase.from('timeline').select('*'),
-                    supabase.from('socials').select('*')
-                ]);
+                if (error) throw error;
 
-                // 1. Render Profile Row
-                if (aboutRes.data && aboutRes.data.length > 0) {
-                    const profile = aboutRes.data[0];
-                    document.getElementById('profile-container').innerHTML = `
-                        ${profile.image_url ? `<img src="${profile.image_url}" class="profile-pic" alt="Profile">` : ''}
-                        <h1>${profile.title}</h1>
-                        <p class="bio-text">${profile.bio}</p>
-                    `;
-                }
-
-                // 2. Render Skills Grid
-                if (skillsRes.data && skillsRes.data.length > 0) {
-                    document.getElementById('skills-container').innerHTML = skillsRes.data.map(skill => `
-                        <div class="skill-badge">${skill.name}</div>
-                    `).join('');
-                }
-
-                // 3. Render History Timeline Matrix
-                if (timelineRes.data && timelineRes.data.length > 0) {
-                    const eduContainer = document.getElementById('education-container');
-                    const expContainer = document.getElementById('experience-container');
-
-                    const eduHtml = timelineRes.data
-                        .filter(item => item.type === 'Education')
-                        .map(item => `
-                            <div class="timeline-card">
-                                <div class="year">${item.year}</div>
-                                <div class="title">${item.title}</div>
-                                <div class="inst">${item.institution}</div>
-                            </div>
-                        `).join('');
-
-                    const expHtml = timelineRes.data
-                        .filter(item => item.type === 'Experience')
-                        .map(item => `
-                            <div class="timeline-card">
-                                <div class="year">${item.year}</div>
-                                <div class="title">${item.title}</div>
-                                <div class="inst">${item.institution}</div>
-                            </div>
-                        `).join('');
-
-                    eduContainer.innerHTML = eduHtml || '<div style="color:#555;font-size:14px;">No logs uploaded.</div>';
-                    expContainer.innerHTML = expHtml || '<div style="color:#555;font-size:14px;">No logs uploaded.</div>';
-                }
-
-                // 4. Render Social Network Channels
-                if (socialsRes.data && socialsRes.data.length > 0) {
-                    document.getElementById('socials-container').innerHTML = socialsRes.data.map(item => {
-                        const accentColor = item.color || '#00ff88';
-                        const iconClass = getIconClass(item.platform);
-                        return `
-                            <a href="${item.url}" 
-                               target="_blank" 
-                               rel="noopener noreferrer" 
-                               class="social-icon-btn"
-                               title="${item.platform}"
-                               onmouseenter="this.style.borderColor='${accentColor}'; this.style.color='${accentColor}'; this.style.boxShadow='0 0 20px ${accentColor}44';"
-                               onmouseleave="this.style.borderColor='#222222'; this.style.color='#ffffff'; this.style.boxShadow='none';">
-                               <i class="${iconClass}"></i>
-                            </a>
-                        `;
-                    }).join('');
-                }
+                // Success visual validation response
+                statusDiv.style.color = '#00ff88';
+                statusDiv.innerText = 'SIGNAL RECEIVED SUCCESSFULLY.';
+                document.getElementById('intake-form').reset();
+            } catch (err) {
+                // Error feedback fallback
+                statusDiv.style.color = '#ff3333';
+                statusDiv.innerText = 'TRANSMISSION FAILED. CORRUPTED PACKET.';
+                console.error(err);
             }
-
-            loadAllAboutData();
-
-        } catch (err) {
-            // Failure containment
-        }
+        });
     </script>
 </body>
 </html>

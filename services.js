@@ -12,8 +12,8 @@
 
     <script>
         // Connect to your specific Supabase project
-        const supabaseUrl = 'https://yrpfevxzocpe.supabase.co';
-        const supabaseKey = 'PASTE_YOUR_ANON_PUBLIC_KEY_HERE';
+        const supabaseUrl = 'https://yrpfevxzocpedpthknhi.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlycGZldnh6b2NwZWRwdGhrbmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NDg5NjIsImV4cCI6MjA5NzUyNDk2Mn0.GMxuE_B17gwzUaqPlaHzwlY20i8XYaMNOoxY9WGijLw';
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
         async function loadServices() {

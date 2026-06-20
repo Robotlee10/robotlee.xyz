@@ -1,38 +1,57 @@
-<script>
-    // 1. Double check that these values match your Supabase Dashboard exactly!
-    const supabaseUrl = 'https://yrpfevxzocpedpthknhi.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlycGZldnh6b2NwZWRwdGhrbmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NDg5NjIsImV4cCI6MjA5NzUyNDk2Mn0.GMxuE_B17gwzUaqPlaHzwlY20i8XYaMNOoxY9WGijLw'; 
-    
-    const container = document.getElementById('services-container');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+</head>
+<body>
+    <div id="services-container" style="padding: 20px; font-family: sans-serif; font-size: 18px;">
+        Starting connection...
+    </div>
 
-    try {
-        const supabase = Supabase.createClient(supabaseUrl, supabaseKey);
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        const container = document.getElementById('services-container');
+        container.innerHTML = "Supabase script loaded. Connecting to database...";
 
-        async function loadServices() {
-            let { data: services, error } = await supabase
-                .from('services')
-                .select('*');
+        const supabaseUrl = 'https://yrpfevxzocpedpthknhi.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlycGZldnh6b2NwZWRwdGhrbmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NDg5NjIsImV4cCI6MjA5NzUyNDk2Mn0.GMxuE_B17gwzUaqPlaHzwlY20i8XYaMNOoxY9WGijLw';
 
-            if (error) {
-                container.innerHTML = 'Database Error: ' + error.message;
-                return;
+        try {
+            const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+            async function loadServices() {
+                container.innerHTML = "Fetching rows from table...";
+                
+                let { data: services, error } = await supabase
+                    .from('services')
+                    .select('*');
+
+                if (error) {
+                    container.innerHTML = "❌ Database Error: " + error.message + " (Code: " + error.code + ")";
+                    return;
+                }
+
+                if (!services || services.length === 0) {
+                    container.innerHTML = "⚠️ Connected! But Supabase returned 0 rows. Check if your rows are saved under the correct table name.";
+                    return;
+                }
+
+                // If successful, render the content
+                container.innerHTML = services.map(service => `
+                    <div style="border: 2px solid #000; padding: 15px; margin: 10px 0; border-radius: 5px;">
+                        <strong>Title:</strong> ${service.title} <br>
+                        <strong>Description:</strong> ${service.description}
+                    </div>
+                `).join('');
             }
 
-            if (!services || services.length === 0) {
-                container.innerHTML = 'Connected to Supabase, but your "services" table is empty! Go insert a row.';
-                return;
-            }
+            loadServices();
 
-            container.innerHTML = services.map(service => `
-                <div style="border: 1px solid #ccc; padding: 20px; margin: 10px; border-radius: 8px;">
-                    <h2>${service.title}</h2>
-                    <p>${service.description}</p>
-                </div>
-            `).join('');
+        } catch (err) {
+            container.innerHTML = "❌ JavaScript System Error: " + err.message;
         }
-
-        loadServices();
-    } catch (err) {
-        container.innerHTML = 'JavaScript Error: ' + err.message;
-    }
-</script>
+    </script>
+</body>
+</html>

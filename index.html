@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>robotlee10 // Home</title>
+    <!-- Stable Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
@@ -50,12 +51,12 @@
             text-align: center;
         }
 
-        /* Updated to support logo image alignment */
+        /* Flex-aligned badge wrapper to center your logo alongside status text */
         .status-tag {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             color: #00ff88;
             font-family: monospace;
             font-size: 13px;
@@ -64,12 +65,11 @@
             text-transform: uppercase;
         }
 
-        /* Styles specifically for your custom logo */
+        /* Custom configuration rule to scale your logo graphic cleanly */
         .brand-logo {
-            width: 24px;         /* Adjust width to scale your logo size */
-            height: 24px;        /* Adjust height to scale your logo size */
+            width: 32px;         /* Change this to increase or decrease size */
+            height: 32px;        /* Keep this equal to width to maintain 1:1 square ratio */
             object-fit: contain;
-            border-radius: 4px;  /* Optional wrapper design curve */
         }
 
         h1 {
@@ -144,8 +144,9 @@
     </nav>
 
     <div class="hero-container">
+        <!-- Replaced text robot element with an explicit image reference -->
         <div class="status-tag">
-            <img src="https://yrpfevxzocpedpthknhi.supabase.co/storage/v1/object/public/robotlee10.dpdns.org/eb1090c3-fbfc-4c85-ad03-229fd22d2f23.jpg" class="brand-logo" alt="logo"> 
+            <img src="https://yrpfevxzocpedpthknhi.supabase.co/storage/v1/object/public/robotlee10.dpdns.org/eb1090c3-fbfc-4c85-ad03-229fd22d2f23.jpg" class="brand-logo" alt="robotlee10 logo">
             SYSTEM // OPERATIONAL
         </div>
         

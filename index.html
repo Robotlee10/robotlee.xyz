@@ -84,7 +84,18 @@
             text-transform: uppercase;
         }
 
-        /* Centered display card container holding the rolling data matrix */
+        /* --- DYNAMIC WELCOME MESSAGE STYLE --- */
+        .welcome-message {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            line-height: 1.4;
+            margin: 0 auto 24px auto;
+            max-width: 500px;
+        }
+
+        /* --- AUTOMATIC CAROUSEL CARD DISPLAY --- */
         .status-card-carousel {
             background-color: #111111;
             border: 1px solid #222222;
@@ -125,10 +136,6 @@
             max-width: 500px;
         }
 
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateY(5px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
         /* --- AVAILABILITY BEACON --- */
         .availability-beacon {
             display: inline-flex;
@@ -142,7 +149,7 @@
             letter-spacing: 1px;
             padding: 6px 16px;
             border-radius: 20px;
-            margin: 25px auto 30px auto;
+            margin: 30px auto 20px auto;
             text-transform: uppercase;
         }
 
@@ -158,7 +165,7 @@
         .portal-matrix {
             display: flex;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .portal-card {
@@ -183,6 +190,7 @@
             border-color: #00ff88;
             background-color: rgba(0, 255, 136, 0.02);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.05);
         }
 
         .portal-arrow {
@@ -194,18 +202,13 @@
             transform: translateX(4px);
         }
 
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 480px) {
             .portal-matrix { flex-direction: column; gap: 10px; }
-        }
-        /* --- WELCOME MESSAGE STYLE --- */
-        .welcome-message {
-            color: #ffffff;
-            font-size: 22px;
-            font-weight: 500;
-            letter-spacing: -0.5px;
-            line-height: 1.4;
-            margin: 0 auto 24px auto;
-            max-width: 500px;
         }
     </style>
 </head>
@@ -217,17 +220,15 @@
         <a href="/about.html">About</a>
     </nav>
 
-   <div class="container">
+    <div class="container">
         <div class="logo-frame">
             <img src="https://yrpfevxzocpedpthknhi.supabase.co/storage/v1/object/public/robotlee10.dpdns.org/eb1090c3-fbfc-4c85-ad03-229fd22d2f23.jpg" class="brand-logo" alt="Logo">
         </div>
-       
+        
         <h1>robotlee10</h1>
         <div class="status-tag">SYSTEM // ONLINE</div>
 
-        <div class="welcome-message">
-            Welcome to my digital outpost.
-        </div>
+        <div class="welcome-message" id="welcome-field">Loading greeting...</div>
 
         <div class="status-card-carousel" id="carousel-box">
             <div class="slide-item active">
@@ -235,9 +236,11 @@
             </div>
         </div>
 
-        <div class="availability-beacon">
-            <span class="beacon-dot"></span>
-            Available for Freelance Contracts
+        <div>
+            <div class="availability-beacon">
+                <span class="beacon-dot"></span>
+                Available for Freelance Contracts
+            </div>
         </div>
 
         <div class="portal-matrix">
@@ -251,6 +254,7 @@
             </a>
         </div>
     </div>
+
     <script>
         const supabaseUrl = 'https://yrpfevxzocpedpthknhi.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlycGZldnh6b2NwZWRwdGhrbmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NDg5NjIsImV4cCI6MjA5NzUyNDk2Mn0.GMxuE_B17gwzUaqPlaHzwlY20i8XYaMNOoxY9WGijLw';
@@ -259,6 +263,7 @@
             try {
                 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
                 
+                // Pulls the latest 10 log rows from the database engine
                 let { data: homeRows } = await supabase
                     .from('home')
                     .select('*')
@@ -268,8 +273,11 @@
                 const carouselBox = document.getElementById('carousel-box');
 
                 if (homeRows && homeRows.length > 0) {
-                    let combinedHtml = '';
+                    // 1. Map the new welcome text column from your first row item
+                    document.getElementById('welcome-field').innerText = homeRows[0].welcome_text || 'Welcome to my digital outpost.';
 
+                    // 2. Loop through all existing rows to construct carousel cards
+                    let combinedHtml = '';
                     homeRows.forEach((row, index) => {
                         const activeClass = index === 0 ? 'active' : '';
                         combinedHtml += `
@@ -282,20 +290,24 @@
 
                     carouselBox.innerHTML = combinedHtml;
 
+                    // 3. Initiate rotation loop if multiple records exist
                     if (homeRows.length > 1) {
                         initAutomaticRotation();
                     }
                 } else {
+                    // Fail-safe fallbacks if table mapping is not loaded yet
+                    document.getElementById('welcome-field').innerText = "Welcome to my digital outpost.";
                     carouselBox.innerHTML = `
                         <div class="slide-item active">
                             <div class="headline-text">Engineering Custom Digital Solutions.</div>
-                            <div class="subheadline-text">Welcome to my digital outpost. I build clean, high-performance web spaces and test automation systems.</div>
+                            <div class="subheadline-text">I build clean, high-performance web spaces and test automation systems.</div>
                         </div>
                     `;
                 }
             } catch (err) {}
         }
 
+        // Card Rotation Logic
         function initAutomaticRotation() {
             let currentSlideIndex = 0;
             
@@ -306,7 +318,7 @@
                 slides[currentSlideIndex].classList.remove('active');
                 currentSlideIndex = (currentSlideIndex + 1) % slides.length;
                 slides[currentSlideIndex].classList.add('active');
-            }, 5000); 
+            }, 5000); // Transitions to next status row every 5 seconds
         }
 
         loadHomePage();

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>robotlee10 // Home</title>
-    <!-- Stable Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
@@ -16,9 +15,6 @@
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 20px 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
         nav {
@@ -44,94 +40,118 @@
             font-weight: bold;
         }
 
-        .hero-container {
-            max-width: 800px;
-            margin: auto;
-            padding: 40px 20px;
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 0 20px;
             text-align: center;
         }
 
-        /* Flex-aligned badge wrapper to center your logo alongside status text */
-        .status-tag {
-            display: inline-flex;
+        .logo-frame {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 2px solid #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.25);
+            margin: 0 auto 30px auto;
+            overflow: hidden;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            color: #00ff88;
-            font-family: monospace;
-            font-size: 13px;
-            letter-spacing: 2px;
-            margin-bottom: 24px;
-            text-transform: uppercase;
+            background-color: #111;
         }
 
-        /* Custom configuration rule to scale your logo graphic cleanly */
         .brand-logo {
-            width: 32px;         /* Change this to increase or decrease size */
-            height: 32px;        /* Keep this equal to width to maintain 1:1 square ratio */
-            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         h1 {
             color: #ffffff;
-            font-size: 42px;
-            letter-spacing: -1px;
-            line-height: 1.2;
-            margin: 0 auto 24px auto;
-            max-width: 700px;
-        }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 32px; }
-        }
-
-        .subtitle {
-            color: #888888;
-            font-size: 18px;
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto 40px auto;
-        }
-
-        .cta-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            padding: 16px 32px;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 38px;
             letter-spacing: 2px;
+            margin: 0 0 10px 0;
+            font-weight: normal;
+        }
+
+        .status-tag {
+            color: #00ff88;
+            font-family: monospace;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
             text-transform: uppercase;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.3s ease;
         }
 
-        .cta-btn.primary {
-            background-color: #00ff88;
-            color: #0a0a0a;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        .bio-text {
+            line-height: 1.8;
+            color: #888888;
+            font-size: 16px;
+            margin-bottom: 40px;
         }
 
-        .cta-btn.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
-        }
-
-        .cta-btn.secondary {
-            background-color: transparent;
+        .section-title {
+            text-align: left;
             color: #ffffff;
-            border: 1px solid #222222;
+            font-size: 18px;
+            margin: 0 0 15px 0;
+            letter-spacing: 1px;
+            font-weight: normal;
         }
 
-        .cta-btn.secondary:hover {
-            border-color: #ffffff;
-            transform: translateY(-2px);
+        /* --- SIDE SCROLLING CAROUSEL ENGINE --- */
+        .scroll-wrapper {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 15px;
+            text-align: left;
+            scrollbar-width: thin;
+            scrollbar-color: #222 transparent;
+        }
+
+        /* Webkit layout customization for scrollbars */
+        .scroll-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+        .scroll-wrapper::-webkit-scrollbar-thumb {
+            background-color: #222;
+            border-radius: 10px;
+        }
+        .scroll-wrapper::-webkit-scrollbar-thumb:hover {
+            background-color: #00ff88;
+        }
+
+        .status-card {
+            flex: 0 0 280px; /* Forces cards to stay side-by-side without shrinking */
+            scroll-snap-align: start;
+            background-color: #111111;
+            border: 1px solid #222222;
+            border-radius: 8px;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .status-card:hover {
+            border-color: #00ff88;
+        }
+
+        .card-date {
+            font-family: monospace;
+            font-size: 11px;
+            color: #00ff88;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .status-card p {
+            color: #888888;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
         }
     </style>
 </head>
@@ -143,19 +163,21 @@
         <a href="/about.html">About</a>
     </nav>
 
-    <div class="hero-container">
-        <!-- Replaced text robot element with an explicit image reference -->
-        <div class="status-tag">
-            <img src="https://yrpfevxzocpedpthknhi.supabase.co/storage/v1/object/public/robotlee10.dpdns.org/eb1090c3-fbfc-4c85-ad03-229fd22d2f23.jpg" class="brand-logo" alt="robotlee10 logo">
-            SYSTEM // OPERATIONAL
+    <div class="container">
+        <div class="logo-frame">
+            <img src="https://yrpfevxzocpedpthknhi.supabase.co/storage/v1/object/public/robotlee10.dpdns.org/eb1090c3-fbfc-4c85-ad03-229fd22d2f23.jpg" class="brand-logo" alt="Logo">
         </div>
         
-        <h1 id="hero-title">...</h1>
-        <p class="subtitle" id="hero-subtitle"></p>
+        <h1 id="hero-title">robotlee10</h1>
+        <div class="status-tag">SYSTEM // ONLINE</div>
 
-        <div class="cta-group">
-            <a href="/services.html" class="cta-btn primary">Explore Services</a>
-            <a href="/about.html" class="cta-btn secondary">View Capabilities</a>
+        <p class="bio-text" id="hero-subtitle">...</p>
+
+        <h2 class="section-title">Log History</h2>
+        <div class="scroll-wrapper" id="status-container">
+            <div class="status-card">
+                <p style="color: #444;">Loading database packets...</p>
+            </div>
         </div>
     </div>
 
@@ -166,18 +188,53 @@
         async function loadHomePage() {
             try {
                 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                let { data: homeRows, error } = await supabase.from('home').select('*').limit(1);
+                
+                // Fetch up to 10 rows from 'home' table, newest first
+                let { data: homeRows, error } = await supabase
+                    .from('home')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
 
-                if (error || !homeRows || homeRows.length === 0) {
-                    document.getElementById('hero-title').innerText = "Engineering Custom Digital Solutions.";
-                    document.getElementById('hero-subtitle').innerText = "Full-stack developer specializing in scalable software applications, infrastructure engineering, and system operations.";
-                    return;
+                const container = document.getElementById('status-container');
+
+                if (homeRows && homeRows.length > 0) {
+                    // 1. Set your main bio paragraph using the newest row's subheadline
+                    document.getElementById('hero-subtitle').innerText = homeRows[0].subheadline || '';
+
+                    // 2. Loop over every row inside the array to build horizontal cards dynamically
+                    let scrollHtml = '';
+                    homeRows.forEach(row => {
+                        // Format the timestamp nicely if available
+                        let displayDate = 'LOG // UPDATE';
+                        if (row.created_at) {
+                            const dateObj = new Date(row.created_at);
+                            displayDate = dateObj.toLocaleDateString('en-US', { 
+                                month: 'short', 
+                                day: 'numeric', 
+                                year: 'numeric' 
+                            });
+                        }
+
+                        scrollHtml += `
+                            <div class="status-card">
+                                <div class="card-date">● ${displayDate}</div>
+                                <p>${row.headline || 'Empty logs.'}</p>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML = scrollHtml;
+                } else {
+                    // Fallback visual layout if database row sets are completely empty
+                    document.getElementById('hero-subtitle').innerText = "Welcome to my digital outpost. I build clean, high-performance web spaces and test automation systems.";
+                    container.innerHTML = `
+                        <div class="status-card">
+                            <div class="card-date">● DEFAULT ACTIVE</div>
+                            <p>Deploying multi-page core architecture via Vercel pipeline successfully.</p>
+                        </div>
+                    `;
                 }
-
-                const metrics = homeRows[0];
-                document.getElementById('hero-title').innerText = metrics.headline || '';
-                document.getElementById('hero-subtitle').innerText = metrics.subheadline || '';
-
             } catch (err) {}
         }
 

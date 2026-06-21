@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>robotlee10 // Portfolio</title> 
+    <!-- 🟢 THIS LINK ADDS THE TAB ICON -->
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- ... rest of your styles ... -->
     <script defer src="/_vercel/insights/script.js"></script>
+    <!-- Vercel Speed Insights -->
     <script>
       window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
     </script>
@@ -297,6 +300,7 @@
         <h2>Connect with me</h2>
         <div class="icons-wrapper" id="socials-container"></div>
 
+        <!-- Integrated Live Client Intake Form Matrix -->
         <div class="contact-portal">
             <h2>Initialize Contact</h2>
             <p>Drop your transmission coordinates below to submit an inquiry stream.</p>
@@ -326,7 +330,6 @@
             if (name.includes('github')) return 'fa-brands fa-github';
             if (name.includes('linkedin')) return 'fa-brands fa-linkedin-in';
             if (name.includes('twitter') || name.includes('x')) return 'fa-brands fa-x-twitter';
-            if (name.includes('telegram')) return 'fa-brands fa-telegram';
             if (name.includes('instagram')) return 'fa-brands fa-instagram';
             if (name.includes('whatsapp')) return 'fa-brands fa-whatsapp';
             if (name.includes('medium')) return 'fa-brands fa-medium';
@@ -336,8 +339,6 @@
             if (name.includes('facebook')) return 'fa-brands fa-facebook-f';
             if (name.includes('youtube')) return 'fa-brands fa-youtube';
             if (name.includes('email') || name.includes('mail')) return 'fa-solid fa-envelope';
-            
-            // 🟢 FALLBACK: Any unknown values added to Supabase default to a generic link icon
             return 'fa-solid fa-link';
         }
 
@@ -378,4 +379,97 @@
                     const eduContainer = document.getElementById('education-container');
                     const expContainer = document.getElementById('experience-container');
 
-                    const eduHtml
+                    const eduHtml = timelineRes.data
+                        .filter(item => item && item.type === 'Education')
+                        .map(item => `
+                            <div class="timeline-card">
+                                <div class="year">${item.year || ''}</div>
+                                <div class="title">${item.title || ''}</div>
+                                <div class="inst">${item.institution || ''}</div>
+                            </div>
+                        `).join('');
+
+                    const expHtml = timelineRes.data
+                        .filter(item => item && item.type === 'Experience')
+                        .map(item => `
+                            <div class="timeline-card">
+                                <div class="year">${item.year || ''}</div>
+                                <div class="title">${item.title || ''}</div>
+                                <div class="inst">${item.institution || ''}</div>
+                            </div>
+                        `).join('');
+
+                    if (eduContainer) eduContainer.innerHTML = eduHtml || '<div style="color:#555;font-size:14px;">No educational logs.</div>';
+                    if (expContainer) expContainer.innerHTML = expHtml || '<div style="color:#555;font-size:14px;">No experience logs.</div>';
+                }
+
+                // 4. Render Social Network Channels safely
+                const socialsContainer = document.getElementById('socials-container');
+                if (socialsRes.data && socialsRes.data.length > 0 && socialsContainer) {
+                    socialsContainer.innerHTML = socialsRes.data.map(item => {
+                        if (!item) return '';
+                        const accentColor = item.color || '#00ff88';
+                        const iconClass = getIconClass(item.platform);
+                        return `
+                            <a href="${item.url || '#'}" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="social-icon-btn"
+                               title="${item.platform || ''}"
+                               onmouseenter="this.style.borderColor='${accentColor}'; this.style.color='${accentColor}'; this.style.boxShadow='0 0 20px ${accentColor}44';"
+                               onmouseleave="this.style.borderColor='#222222'; this.style.color='#ffffff'; this.style.boxShadow='none';">
+                               <i class="${iconClass}"></i>
+                            </a>
+                        `;
+                    }).join('');
+                }
+
+                // 5. Wire up Form Handler ONLY after database pipeline runs to prevent blocking execution
+                setupFormListener(supabase);
+
+            } catch (err) {
+                console.error("Initialization error containment invoked:", err);
+            }
+        }
+
+     function setupFormListener(supabaseInstance) {
+            const contactForm = document.getElementById('intake-form');
+            if (!contactForm) return;
+
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const emailInput = document.getElementById('client-email').value;
+                const messageInput = document.getElementById('client-message').value;
+                const statusDiv = document.getElementById('form-status');
+                
+                if (!statusDiv) return;
+
+                statusDiv.style.display = 'block';
+                statusDiv.style.color = '#888888';
+                statusDiv.innerText = 'TRANSMITTING SIGNAL...';
+
+                try {
+                    // Changed 'inquiries' to 'enquiries' to match your Supabase table perfectly
+                    const { error } = await supabaseInstance
+                        .from('enquiries')
+                        .insert([{ email: emailInput, message: messageInput }]);
+
+                    if (error) throw error;
+
+                    statusDiv.style.color = '#00ff88';
+                    statusDiv.innerText = 'SIGNAL RECEIVED SUCCESSFULLY.';
+                    contactForm.reset();
+                } catch (err) {
+                    statusDiv.style.color = '#ff3333';
+                    statusDiv.innerText = 'TRANSMISSION FAILED. CORRUPTED PACKET.';
+                    console.error(err);
+                }
+            });
+        }
+
+        // Execute layout generation on window load state
+        window.addEventListener('DOMContentLoaded', loadAllAboutData);
+    </script>
+</body>
+</html>

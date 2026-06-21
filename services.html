@@ -211,11 +211,13 @@
                 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
                 // 🟢 UPDATED: Only selects records where is_active is true, sorted by sort_order ascending
-                let { data: services, error } = await supabase
-                    .from('services')
-                    .select('*')
-                    .eq('is_active', true)
-                    .order('sort_order', { ascending: true });
+                // 🟢 UPDATED: Looks for the text string 'active' and sorts by your custom order
+        let { data: services, error } = await supabase
+    .from('services')
+    .select('*')
+    .eq('status', 'active')
+    .order('sort_order', { ascending: true });
+});
 
                 if (error) {
                     container.innerHTML = `<div class="loading-text" style="color: #ff4444;">Supabase Error: ${error.message}</div>`;

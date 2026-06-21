@@ -326,21 +326,25 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlycGZldnh6b2NwZWRwdGhrbmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NDg5NjIsImV4cCI6MjA5NzUyNDk2Mn0.GMxuE_B17gwzUaqPlaHzwlY20i8XYaMNOoxY9WGijLw';
 
         function getIconClass(platformName) {
-            const name = platformName ? platformName.toLowerCase().trim() : '';
-            if (name.includes('github')) return 'fa-brands fa-github';
-            if (name.includes('linkedin')) return 'fa-brands fa-linkedin-in';
-            if (name.includes('twitter') || name.includes('x')) return 'fa-brands fa-x-twitter';
-            if (name.includes('instagram')) return 'fa-brands fa-instagram';
-            if (name.includes('whatsapp')) return 'fa-brands fa-whatsapp';
-            if (name.includes('medium')) return 'fa-brands fa-medium';
-            if (name.includes('tiktok')) return 'fa-brands fa-tiktok';
-            if (name.includes('discord')) return 'fa-brands fa-discord';
-            if (name.includes('farcaster')) return 'fa-solid fa-cube';
-            if (name.includes('facebook')) return 'fa-brands fa-facebook-f';
-            if (name.includes('youtube')) return 'fa-brands fa-youtube';
-            if (name.includes('email') || name.includes('mail')) return 'fa-solid fa-envelope';
-            return 'fa-solid fa-link';
-        }
+    // Force lowercase and strip any accidental whitespace/hidden characters
+    const name = platformName ? String(platformName).toLowerCase().trim() : '';
+    
+    if (name.includes('github')) return 'fa-brands fa-github';
+    if (name.includes('linkedin')) return 'fa-brands fa-linkedin-in';
+    if (name.includes('twitter') || name.includes('x')) return 'fa-brands fa-x-twitter';
+    if (name.includes('instagram')) return 'fa-brands fa-instagram';
+    if (name.includes('whatsapp')) return 'fa-brands fa-whatsapp';
+    if (name.includes('medium')) return 'fa-brands fa-medium';
+    if (name.includes('tiktok')) return 'fa-brands fa-tiktok';
+    if (name.includes('discord')) return 'fa-brands fa-discord';
+    if (name.includes('farcaster')) return 'fa-solid fa-cube';
+    if (name.includes('facebook')) return 'fa-brands fa-facebook-f';
+    if (name.includes('youtube')) return 'fa-brands fa-youtube';
+    if (name.includes('email') || name.includes('mail')) return 'fa-solid fa-envelope';
+    
+    // Fallback: If it doesn't match any of the above, show a general link icon
+    return 'fa-solid fa-link'; 
+}
 
         async function loadAllAboutData() {
     try {

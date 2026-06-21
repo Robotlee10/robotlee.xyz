@@ -343,95 +343,103 @@
         }
 
         async function loadAllAboutData() {
-            try {
-                const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    try {
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-                const [aboutRes, skillsRes, timelineRes, socialsRes] = await Promise.all([
-                    supabase.from('about').select('*'),
-                    supabase.from('skills').select('*'),
-                    supabase.from('timeline').select('*'),
-                    supabase.from('socials').select('*')
-                ]);
-
-                // 1. Render Profile Row safely
-                const profileContainer = document.getElementById('profile-container');
-                if (aboutRes.data && aboutRes.data.length > 0) {
-                    const profile = aboutRes.data[0];
-                    profileContainer.innerHTML = `
-                        ${profile.image_url ? `<img src="${profile.image_url}" class="profile-pic" alt="Profile">` : ''}
-                        <h1>${profile.title || 'robotlee10'}</h1>
-                        <p class="bio-text">${profile.bio || ''}</p>
-                    `;
-                } else {
-                    profileContainer.innerHTML = `<h1>robotlee10</h1><p class="bio-text">Developer Profile Matrix</p>`;
-                }
-
-                // 2. Render Skills Grid safely
-                const skillsContainer = document.getElementById('skills-container');
-                if (skillsRes.data && skillsRes.data.length > 0) {
-                    skillsContainer.innerHTML = skillsRes.data.map(skill => `
-                        <div class="skill-badge">${skill.name || ''}</div>
-                    `).join('');
-                }
-
-                // 3. Render History Timeline Matrix safely
-                if (timelineRes.data && timelineRes.data.length > 0) {
-                    const eduContainer = document.getElementById('education-container');
-                    const expContainer = document.getElementById('experience-container');
-
-                    const eduHtml = timelineRes.data
-                        .filter(item => item && item.type === 'Education')
-                        .map(item => `
-                            <div class="timeline-card">
-                                <div class="year">${item.year || ''}</div>
-                                <div class="title">${item.title || ''}</div>
-                                <div class="inst">${item.institution || ''}</div>
-                            </div>
-                        `).join('');
-
-                    const expHtml = timelineRes.data
-                        .filter(item => item && item.type === 'Experience')
-                        .map(item => `
-                            <div class="timeline-card">
-                                <div class="year">${item.year || ''}</div>
-                                <div class="title">${item.title || ''}</div>
-                                <div class="inst">${item.institution || ''}</div>
-                            </div>
-                        `).join('');
-
-                    if (eduContainer) eduContainer.innerHTML = eduHtml || '<div style="color:#555;font-size:14px;">No educational logs.</div>';
-                    if (expContainer) expContainer.innerHTML = expHtml || '<div style="color:#555;font-size:14px;">No experience logs.</div>';
-                }
-
-                // 4. Render Social Network Channels safely
-                const socialsContainer = document.getElementById('socials-container');
-                if (socialsRes.data && socialsRes.data.length > 0 && socialsContainer) {
-                    socialsContainer.innerHTML = socialsRes.data.map(item => {
-                        if (!item) return '';
-                        const accentColor = item.color || '#00ff88';
-                        const iconClass = getIconClass(item.platform);
-                        return `
-                            <a href="${item.url || '#'}" 
-                               target="_blank" 
-                               rel="noopener noreferrer" 
-                               class="social-icon-btn"
-                               title="${item.platform || ''}"
-                               onmouseenter="this.style.borderColor='${accentColor}'; this.style.color='${accentColor}'; this.style.boxShadow='0 0 20px ${accentColor}44';"
-                               onmouseleave="this.style.borderColor='#222222'; this.style.color='#ffffff'; this.style.boxShadow='none';">
-                               <i class="${iconClass}"></i>
-                            </a>
-                        `;
-                    }).join('');
-                }
-
-                // 5. Wire up Form Handler ONLY after database pipeline runs to prevent blocking execution
-                setupFormListener(supabase);
-
-            } catch (err) {
-                console.error("Initialization error containment invoked:", err);
+        // 1. Fetch Profile Row safely
+        try {
+            const aboutRes = await supabase.from('about').select('*');
+            const profileContainer = document.getElementById('profile-container');
+            if (aboutRes.data && aboutRes.data.length > 0) {
+                const profile = aboutRes.data[0];
+                profileContainer.innerHTML = `
+                    ${profile.image_url ? `<img src="${profile.image_url}" class="profile-pic" alt="Profile">` : ''}
+                    <h1>${profile.title || 'robotlee10'}</h1>
+                    <p class="bio-text">${profile.bio || ''}</p>
+                `;
+            } else {
+                profileContainer.innerHTML = `<h1>robotlee10</h1><p class="bio-text">Developer Profile Matrix</p>`;
             }
-        }
+        } catch (e) { console.error("Profile error:", e); }
 
+        // 2. Fetch Skills Grid safely
+        try {
+            const skillsRes = await supabase.from('skills').select('*');
+            const skillsContainer = document.getElementById('skills-container');
+            if (skillsRes.data && skillsRes.data.length > 0) {
+                skillsContainer.innerHTML = skillsRes.data.map(skill => `
+                    <div class="skill-badge">${skill.name || ''}</div>
+                `).join('');
+            }
+        } catch (e) { console.error("Skills error:", e); }
+
+        // 3. Fetch History Timeline Matrix safely
+        try {
+            const timelineRes = await supabase.from('timeline').select('*');
+            if (timelineRes.data && timelineRes.data.length > 0) {
+                const eduContainer = document.getElementById('education-container');
+                const expContainer = document.getElementById('experience-container');
+
+                const eduHtml = timelineRes.data
+                    .filter(item => item && item.type === 'Education')
+                    .map(item => `
+                        <div class="timeline-card">
+                            <div class="year">${item.year || ''}</div>
+                            <div class="title">${item.title || ''}</div>
+                            <div class="inst">${item.institution || ''}</div>
+                        </div>
+                    `).join('');
+
+                const expHtml = timelineRes.data
+                    .filter(item => item && item.type === 'Experience')
+                    .map(item => `
+                        <div class="timeline-card">
+                            <div class="year">${item.year || ''}</div>
+                            <div class="title">${item.title || ''}</div>
+                            <div class="inst">${item.institution || ''}</div>
+                        </div>
+                    `).join('');
+
+                if (eduContainer) eduContainer.innerHTML = eduHtml || '<div style="color:#555;font-size:14px;">No educational logs.</div>';
+                if (expContainer) expContainer.innerHTML = expHtml || '<div style="color:#555;font-size:14px;">No experience logs.</div>';
+            }
+        } catch (e) { console.error("Timeline error:", e); }
+
+        // 4. Fetch Social Network Channels safely
+        try {
+            const socialsRes = await supabase.from('socials').select('*');
+            const socialsContainer = document.getElementById('socials-container');
+            
+            if (!socialsRes.data || socialsRes.data.length === 0) {
+                console.warn("Supabase returned NO data for 'socials' table.");
+                if (socialsContainer) socialsContainer.innerHTML = '<span style="color:#555;">No social links found.</span>';
+            } else if (socialsContainer) {
+                socialsContainer.innerHTML = socialsRes.data.map(item => {
+                    if (!item) return '';
+                    const accentColor = item.color || '#00ff88';
+                    const iconClass = getIconClass(item.platform);
+                    return `
+                        <a href="${item.url || '#'}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="social-icon-btn"
+                           title="${item.platform || ''}"
+                           onmouseenter="this.style.borderColor='${accentColor}'; this.style.color='${accentColor}'; this.style.boxShadow='0 0 20px ${accentColor}44';"
+                           onmouseleave="this.style.borderColor='#222222'; this.style.color='#ffffff'; this.style.boxShadow='none';">
+                           <i class="${iconClass}"></i>
+                        </a>
+                    `;
+                }).join('');
+            }
+        } catch (e) { console.error("Socials section error:", e); }
+
+        // 5. Wire up Form Handler
+        setupFormListener(supabase);
+
+    } catch (err) {
+        console.error("Initialization error containment invoked:", err);
+    }
+}
      function setupFormListener(supabaseInstance) {
             const contactForm = document.getElementById('intake-form');
             if (!contactForm) return;

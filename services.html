@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>robotlee10 // Portfolio</title>
     
-    <!-- 🟢 THIS LINK ADDS THE TAB ICON -->
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🟢</text></svg>">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- ... rest of your styles ... -->
     <script defer src="/_vercel/insights/script.js"></script>
-    <!-- Vercel Speed Insights -->
     <script>
       window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body {
             background-color: #0a0a0a;
@@ -114,6 +112,14 @@
             flex-grow: 1;
         }
 
+        /* --- ACTION CONTROL PANEL LAYOUT --- */
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+        }
+
         .whatsapp-btn {
             display: inline-flex;
             align-items: center;
@@ -136,6 +142,22 @@
             background-color: #00ff88;
             color: #0a0a0a;
             box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .learn-more-btn {
+            text-align: center;
+            color: #666666;
+            font-family: monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 1px;
+            padding: 6px 0;
+            transition: color 0.2s ease;
+        }
+
+        .learn-more-btn:hover {
+            color: #ffffff;
         }
 
         .loading-text {
@@ -169,7 +191,6 @@
             try {
                 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-                // Fetching everything safely from your services table
                 let { data: services, error } = await supabase.from('services').select('*');
 
                 if (error) {
@@ -185,9 +206,18 @@
                 let gridHtml = '<div class="services-grid">';
                 
                 services.forEach(service => {
-                    // Smart fallback check: looks for 'whatsapp_url', then 'link_url', then defaults to a standard link
                     const databaseLink = service.whatsapp_url || service.link_url || '';
                     const customUrl = databaseLink.trim() !== '' ? databaseLink.trim() : 'https://wa.me/';
+
+                    // 1. Dynamic CTA Text option with standard fallback
+                    const buttonText = service.cta_text && service.cta_text.trim() !== '' 
+                        ? service.cta_text.trim() 
+                        : 'Inquiry Service';
+
+                    // 2. Conditional Learn More Subdomain Link render check
+                    const learnMoreMarkup = service.subdomain_url && service.subdomain_url.trim() !== ''
+                        ? `<a href="${service.subdomain_url.trim()}" target="_blank" rel="noopener noreferrer" class="learn-more-btn">// Learn More <i class="fa-solid fa-arrow-right-long"></i></a>`
+                        : '';
 
                     const imageMarkup = service.image_url 
                         ? `<img src="${service.image_url}" class="service-img" alt="${service.title || 'Service Image'}">`
@@ -200,9 +230,12 @@
                                 <h3 class="service-title">${service.title || 'Untitled Service'}</h3>
                                 <p class="service-desc">${service.description || 'No description provided.'}</p>
                             </div>
-                            <a href="${customUrl}" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
-                                <i class="fa-brands fa-whatsapp"></i> Inquiry Service
-                            </a>
+                            <div class="card-actions">
+                                <a href="${customUrl}" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
+                                    <i class="fa-brands fa-whatsapp"></i> ${buttonText}
+                                </a>
+                                ${learnMoreMarkup}
+                            </div>
                         </div>
                     `;
                 });

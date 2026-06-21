@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>robotlee10 // Portfolio</title>
     
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script defer src="/_vercel/insights/script.js"></script>
     <script>
@@ -115,7 +115,7 @@
         .card-actions {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             margin-top: auto;
         }
 
@@ -143,20 +143,41 @@
             box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
         }
 
+        /* 🟢 UPGRADED CYBERPUNK LEARN MORE ACTION BUTTON */
         .learn-more-btn {
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #0d0d0d;
             color: #666666;
+            border: 1px solid #1a1a1a;
+            padding: 11px 20px;
+            border-radius: 6px;
+            text-decoration: none;
             font-family: monospace;
             font-size: 12px;
-            text-transform: uppercase;
-            text-decoration: none;
+            font-weight: bold;
             letter-spacing: 1px;
-            padding: 6px 0;
-            transition: color 0.2s ease;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .learn-more-btn i {
+            font-size: 11px;
+            transition: transform 0.2s ease;
         }
 
         .learn-more-btn:hover {
             color: #ffffff;
+            border-color: #444444;
+            background-color: #141414;
+        }
+
+        /* Subtle arrow nudge on card hover */
+        .learn-more-btn:hover i {
+            transform: translateX(4px);
+            color: #00ff88;
         }
 
         .loading-text {
@@ -208,14 +229,15 @@
                     const databaseLink = service.whatsapp_url || service.link_url || '';
                     const customUrl = databaseLink.trim() !== '' ? databaseLink.trim() : 'https://wa.me/';
 
-                    // 1. Dynamic CTA Text option with standard fallback
                     const buttonText = service.cta_text && service.cta_text.trim() !== '' 
                         ? service.cta_text.trim() 
                         : 'Inquiry Service';
 
-                    // 2. Conditional Learn More Subdomain Link render check
+                    // Upgraded template literal structure for the Learn More element
                     const learnMoreMarkup = service.subdomain_url && service.subdomain_url.trim() !== ''
-                        ? `<a href="${service.subdomain_url.trim()}" target="_blank" rel="noopener noreferrer" class="learn-more-btn">// Learn More <i class="fa-solid fa-arrow-right-long"></i></a>`
+                        ? `<a href="${service.subdomain_url.trim()}" target="_blank" rel="noopener noreferrer" class="learn-more-btn">
+                            Explore Subdomain <i class="fa-solid fa-arrow-right"></i>
+                           </a>`
                         : '';
 
                     const imageMarkup = service.image_url 

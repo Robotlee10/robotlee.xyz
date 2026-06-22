@@ -1,6 +1,6 @@
 {
   "cleanUrls": true,
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
       "has": [
@@ -9,21 +9,41 @@
           "value": "cad.robotlee.xyz"
         }
       ],
-      "destination": "/cad/index.html"
+      "destination": "https://robotlee.xyz/cad",
+      "permanent": false
     },
     {
-      "source": "/index.html",
+      "source": "/",
       "has": [
         {
           "type": "host",
-          "value": "cad.robotlee.xyz"
+          "value": "auto.robotlee.xyz"
         }
       ],
-      "destination": "/cad/index.html"
+      "destination": "https://robotlee.xyz/auto",
+      "permanent": false
     },
     {
-      "source": "/(auto|cad|repair|web)",
-      "destination": "/$1/index.html"
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "repair.robotlee.xyz"
+        }
+      ],
+      "destination": "https://robotlee.xyz/repair",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "web.robotlee.xyz"
+        }
+      ],
+      "destination": "https://robotlee.xyz/web",
+      "permanent": false
     }
   ]
 }

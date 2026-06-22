@@ -1,1 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>robotlee10 // CAD Node</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #a0a0a0;
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(rgba(0, 255, 136, 0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 255, 136, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px; /* Matrix/Blueprint grid sizing */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
+        .node-box {
+            background-color: #0d0d0d;
+            border: 1px solid #222222;
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+        }
+
+        .icon-container {
+            font-size: 45px;
+            color: #00ff88;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+        }
+
+        p {
+            color: #666666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: rgba(0, 255, 136, 0.05);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .back-link {
+            color: #888888;
+            text-decoration: none;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="node-box">
+        <div class="icon-container">
+            <i class="fa-solid fa-compass-drafting"></i>
+        </div>
+        <div class="status-badge">System Node: CAD // Offline</div>
+        <h1>cad.robotlee.xyz</h1>
+        <p>Computer-Aided Design engine pipeline is currently partitioning storage arrays. Engineering schematics, 3D topologies, and print layouts are initializing.</p>
+        
+        <a href="https://robotlee.xyz" class="back-link"><i class="fa-solid fa-arrow-left"></i> Return to Main Terminal</a>
+    </div>
+
+</body>
+</html>

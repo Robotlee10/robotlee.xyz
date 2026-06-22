@@ -1,3 +1,28 @@
 {
   "cleanUrls": true
 }
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "auto.robotlee.xyz" }],
+      "destination": "/auto/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "cad.robotlee.xyz" }],
+      "destination": "/cad/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "repair.robotlee.xyz" }],
+      "destination": "/repair/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "web.robotlee.xyz" }],
+      "destination": "/web/:path*"
+    }
+  ]
+}
+
